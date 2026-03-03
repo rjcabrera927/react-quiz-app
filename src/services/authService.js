@@ -8,4 +8,15 @@ async function getUser() {
   return user;
 }
 
-export { getUser };
+async function userLogin({ email, password }) {
+  let { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  console.log(data);
+  if (error) console.log(error);
+
+  return data;
+}
+
+export { getUser, userLogin };

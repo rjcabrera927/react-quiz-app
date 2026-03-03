@@ -4,7 +4,7 @@ import AppLayout from '../../layouts/AppLayout';
 function Signup() {
   return (
     <AppLayout>
-      <h1 class='text-3xl uppercase text-center'>Signup</h1>
+      <h1 className='text-3xl uppercase text-center'>Signup</h1>
       <Hr />
       <form action='' method='post'>
         {/* Email */}

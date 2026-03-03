@@ -7,15 +7,13 @@ import { RouterProvider } from 'react-router/dom';
 import Login from './pages/auth/Login.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Signup from './pages/auth/Signup.jsx';
+import { AuthProvider } from './contexts/AuthContext.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <ProtectedRoute />,
-    children: [
-      // Protected Routes
-      { path: '/', element: <Index /> },
-    ],
+    children: [{ path: '/', element: <Index /> }],
   },
   {
     path: '/login',
@@ -30,6 +28,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>
 );
