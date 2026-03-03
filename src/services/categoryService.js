@@ -1,9 +1,9 @@
-import supabase from "./supabase";
+import supabase from './supabase';
 
 async function getCategories() {
   let { data: categories, error } = await supabase
-    .from("categories")
-    .select("*");
+    .from('categories')
+    .select('*');
 
   if (error) console.log(error);
 

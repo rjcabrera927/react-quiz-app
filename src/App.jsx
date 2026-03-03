@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { getCategories } from "./services/categoryService";
+import { useEffect } from 'react';
+import { getCategories } from './services/categoryService';
 
 function App() {
   useEffect(() => {
