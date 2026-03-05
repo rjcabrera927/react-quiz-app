@@ -12,4 +12,20 @@ async function getQuizzesByCategoryId(categoryId) {
   return quizzes;
 }
 
-export { getQuizzesByCategoryId };
+async function getQuizById(id) {
+  const { data, error } = await supabase
+    .from('quizzes')
+    .select(
+      `
+      *,
+      questions (*)
+    `
+    )
+    .eq('id', id);
+
+  if (error) toast.error(error.message);
+
+  return data;
+}
+
+export { getQuizzesByCategoryId, getQuizById };

@@ -28,7 +28,7 @@ function Quizzes() {
           {quizzes.map((quiz) => (
             <li key={quiz.id}>
               <Link
-                to='#'
+                to={`/quizzes/${quiz.id}`}
                 className='block text-center bg-violet-500 text-white w-full rounded-full py-3 px-2 mb-3 hover:bg-violet-600 cursor-pointer'
               >
                 {quiz.title}
