@@ -1,7 +1,7 @@
-import Hr from '../../components/Hr';
-import AppLayout from '../../layouts/AppLayout';
+import Hr from '../components/Hr';
+import AppLayout from '../layouts/AppLayout';
 
-function Index() {
+function Home() {
   return (
     <AppLayout>
       <h1 className='text-3xl uppercase text-center'>React Quiz App</h1>
@@ -17,4 +17,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default Home;

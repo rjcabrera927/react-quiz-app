@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
-import Hr from '../../components/Hr';
-import AppLayout from '../../layouts/AppLayout';
-import { userLogin } from '../../services/authService';
+import Hr from '../components/Hr';
+import AppLayout from '../layouts/AppLayout';
+import { userLogin } from '../services/authService';
 import { useState } from 'react';
 
 function Login() {

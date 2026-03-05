@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/AuthContext';
 
 function ProtectedRoute() {
   const { session } = useAuth();
-  console.log(session);
   return session ? <Outlet /> : <Navigate to='/login' />;
 }
 

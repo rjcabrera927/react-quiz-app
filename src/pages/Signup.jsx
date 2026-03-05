@@ -1,5 +1,5 @@
-import Hr from '../../components/Hr';
-import AppLayout from '../../layouts/AppLayout';
+import Hr from '../components/Hr';
+import AppLayout from '../layouts/AppLayout';
 
 function Signup() {
   return (
