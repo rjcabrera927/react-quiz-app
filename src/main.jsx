@@ -13,6 +13,7 @@ import { Toaster } from 'react-hot-toast';
 import Categories from './pages/Categories.jsx';
 import Quizzes from './pages/Quizzes.jsx';
 import Quiz from './pages/Quiz.jsx';
+import Result from './pages/Result.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ const router = createBrowserRouter([
       { path: '/categories', Component: Categories },
       { path: '/categories/:id/quizzes', Component: Quizzes },
       { path: '/quizzes/:id', Component: Quiz },
+      { path: '/results/:id', Component: Result },
     ],
   },
   {

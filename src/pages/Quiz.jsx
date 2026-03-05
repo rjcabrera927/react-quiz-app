@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Hr from '../components/Hr';
 import AppLayout from '../layouts/AppLayout';
 import { getQuizById } from '../services/quizService';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import { addResult } from '../services/resultService';
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ function Quiz() {
   const { id } = useParams();
   const { session } = useAuth();
   const user = session?.user;
+  const navigate = useNavigate();
 
   useEffect(() => {
     getQuizById(id)
@@ -44,11 +45,13 @@ function Quiz() {
       user_id: user.id,
       quiz_id: quiz.id,
       score: score,
+      total_questions: quiz.questions.length,
     };
 
     addResult(result)
-      .then(() => {
+      .then((data) => {
         toast.success('Quiz completed! Your results have been saved.');
+        navigate(`/results/${data.id}`);
       })
       .finally(() => {
         setSubmitting(false);
