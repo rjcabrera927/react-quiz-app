@@ -42,4 +42,15 @@ async function getResultByQuizIdAndUserId(quiz_id, user_id) {
   return data;
 }
 
-export { addResult, getResultById, getResultByQuizIdAndUserId };
+async function deleteResultById(id) {
+  const { error } = await supabase.from('results').delete().eq('id', id);
+
+  if (error) toast.error(error.message);
+}
+
+export {
+  addResult,
+  getResultById,
+  getResultByQuizIdAndUserId,
+  deleteResultById,
+};

@@ -13,10 +13,6 @@ function Home() {
       >
         Start Quiz
       </Link>
-
-      {/* <button className='bg-violet-500 text-white w-full rounded-full py-3 px-2 hover:bg-violet-600 cursor-pointer'>
-        View Leaderboard
-      </button> */}
     </AppLayout>
   );
 }

@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import Hr from '../components/Hr';
 import AppLayout from '../layouts/AppLayout';
-import { getResultById } from '../services/resultService';
-import { Link, useParams } from 'react-router';
+import { deleteResultById, getResultById } from '../services/resultService';
+import { Link, useNavigate, useParams } from 'react-router';
+import toast from 'react-hot-toast';
 
 function Result() {
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
   const { id } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     getResultById(id)
       .then((data) => {
@@ -23,6 +26,16 @@ function Result() {
   else if (percentage >= 80) message = '👍 Great work!';
   else if (percentage >= 50) message = '🙂 Not bad! Keep practicing.';
   else message = `😅 Don't worry, try again to improve!`;
+
+  async function handleRetry() {
+    try {
+      await deleteResultById(result.id);
+      toast.success('Previous attempt deleted. Redirecting to quiz...');
+      navigate(`/quizzes/${result.quiz_id}`);
+    } catch {
+      toast.error('Failed to delete previous attempt.');
+    }
+  }
 
   return (
     <AppLayout>
@@ -49,8 +62,8 @@ function Result() {
             </Link>
 
             <button
-              type='submit'
               className='bg-green-500 text-white rounded p-2 hover:bg-green-600 cursor-pointer mb-3'
+              onClick={handleRetry}
             >
               Retry Quiz
             </button>

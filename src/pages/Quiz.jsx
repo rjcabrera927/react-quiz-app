@@ -73,7 +73,7 @@ function Quiz() {
 
         const data = await getQuizById(id);
         setQuiz(data.at(0));
-        setSecondsRemaining(3);
+        setSecondsRemaining(180);
       } catch {
         toast.error('Failed to load quiz');
       } finally {
