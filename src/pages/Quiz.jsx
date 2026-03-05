@@ -4,7 +4,10 @@ import AppLayout from '../layouts/AppLayout';
 import { getQuizById } from '../services/quizService';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
-import { addResult } from '../services/resultService';
+import {
+  addResult,
+  getResultByQuizIdAndUserId,
+} from '../services/resultService';
 import toast from 'react-hot-toast';
 
 function Quiz() {
@@ -19,12 +22,21 @@ function Quiz() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getResultByQuizIdAndUserId(id, user.id).then((result) => {
+      console.log(result);
+      if (result.length) {
+        toast('You already completed this quiz. Redirecting to your result...');
+        navigate(`/results/${result.at(0).id}`);
+        return;
+      }
+    });
+
     getQuizById(id)
       .then((data) => {
         setQuiz(data.at(0));
       })
       .finally(() => setLoading(false));
-  }, [id]);
+  }, [id, navigate, user.id]);
 
   function handleChange(questionId, option) {
     setAnswers((prev) => {

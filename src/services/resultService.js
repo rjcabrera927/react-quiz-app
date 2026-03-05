@@ -30,4 +30,16 @@ async function getResultById(id) {
   return data;
 }
 
-export { addResult, getResultById };
+async function getResultByQuizIdAndUserId(quiz_id, user_id) {
+  const { data, error } = await supabase
+    .from('results')
+    .select(`*, quizzes (*)`)
+    .eq('quiz_id', quiz_id)
+    .eq('user_id', user_id);
+
+  if (error) toast.error(error.message);
+
+  return data;
+}
+
+export { addResult, getResultById, getResultByQuizIdAndUserId };
