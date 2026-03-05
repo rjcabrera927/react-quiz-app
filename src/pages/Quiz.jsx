@@ -60,7 +60,7 @@ function Quiz() {
   }, [answers, quiz, user, navigate]);
 
   useEffect(() => {
-    const loadQuiz = async () => {
+    async function loadQuiz() {
       try {
         const existingResults = await getResultsByQuizIdAndUserId(id, user.id);
         if (existingResults.length) {
@@ -79,7 +79,7 @@ function Quiz() {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadQuiz();
   }, [id, navigate, user]);

@@ -11,7 +11,7 @@ function Quizzes() {
   const { id } = useParams();
 
   useEffect(() => {
-    const loadQuizzes = async () => {
+    async function loadQuizzes() {
       try {
         const data = await getQuizzesByCategoryId(id);
         setQuizzes(data);
@@ -20,7 +20,7 @@ function Quizzes() {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadQuizzes();
   }, [id]);

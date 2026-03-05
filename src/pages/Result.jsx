@@ -12,7 +12,7 @@ function Result() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const loadResult = async () => {
+    async function loadResult() {
       try {
         const data = await getResultById(id);
         setResult(data);
@@ -21,7 +21,7 @@ function Result() {
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     loadResult();
   }, [id]);
@@ -36,7 +36,7 @@ function Result() {
   else if (percentage >= 50) message = '🙂 Not bad! Keep practicing.';
   else message = `😅 Don't worry, try again to improve!`;
 
-  const handleRetry = async () => {
+  async function handleRetry() {
     if (!result) return;
     try {
       await deleteResultById(result.id);
@@ -45,7 +45,7 @@ function Result() {
     } catch {
       toast.error('Failed to delete previous attempt.');
     }
-  };
+  }
 
   return (
     <AppLayout>
@@ -71,8 +71,8 @@ function Result() {
               Back Home
             </Link>
             <button
-              className='bg-green-500 text-white rounded p-2 hover:bg-green-600 cursor-pointer mb-3'
               onClick={handleRetry}
+              className='bg-green-500 text-white rounded p-2 hover:bg-green-600 cursor-pointer mb-3'
             >
               Retry Quiz
             </button>
