@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import supabase from './supabase';
 
 async function getUser() {
@@ -13,8 +14,8 @@ async function userLogin({ email, password }) {
     email,
     password,
   });
-  console.log(data);
-  if (error) console.log(error);
+
+  if (error) toast.error(error.message);
 
   return data;
 }

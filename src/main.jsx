@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Signup from './pages/Signup.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import Home from './pages/Home.jsx';
+import { Toaster } from 'react-hot-toast';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
+      <Toaster position='top-right' />
     </AuthProvider>
   </StrictMode>
 );
