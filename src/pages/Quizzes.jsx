@@ -3,6 +3,7 @@ import Hr from '../components/Hr';
 import AppLayout from '../layouts/AppLayout';
 import { getQuizzesByCategoryId } from '../services/quizService';
 import { Link, useParams } from 'react-router';
+import toast from 'react-hot-toast';
 
 function Quizzes() {
   const [quizzes, setQuizzes] = useState([]);
@@ -10,11 +11,18 @@ function Quizzes() {
   const { id } = useParams();
 
   useEffect(() => {
-    getQuizzesByCategoryId(id)
-      .then((data) => {
+    const loadQuizzes = async () => {
+      try {
+        const data = await getQuizzesByCategoryId(id);
         setQuizzes(data);
-      })
-      .finally(() => setLoading(false));
+      } catch {
+        toast.error('Failed to load quizzes.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadQuizzes();
   }, [id]);
 
   return (

@@ -6,7 +6,7 @@ import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../contexts/AuthContext';
 import {
   addResult,
-  getResultByQuizIdAndUserId,
+  getResultsByQuizIdAndUserId,
 } from '../services/resultService';
 import toast from 'react-hot-toast';
 import { formatTime } from '../helpers/time';
@@ -24,50 +24,50 @@ function Quiz() {
   const user = session?.user;
   const navigate = useNavigate();
 
-  function handleChange(questionId, option) {
-    setAnswers((prev) => {
-      return { ...prev, [questionId]: option };
-    });
-  }
+  const handleChange = (questionId, option) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: option }));
+  };
 
-  const handleSubmit = useCallback(() => {
-    if (hasSubmitted.current) return; // lock
+  const handleSubmit = useCallback(async () => {
+    if (hasSubmitted.current) return;
     hasSubmitted.current = true;
 
-    if (!quiz) return;
+    if (!quiz || !user) return;
 
     setSubmitting(true);
 
-    let score = 0;
-    quiz.questions.forEach((q) => {
-      if (answers[q.id] === q.correct_answer) score++;
-    });
+    try {
+      let score = 0;
+      quiz.questions.forEach((q) => {
+        if (answers[q.id] === q.correct_answer) score++;
+      });
 
-    const result = {
-      user_id: user.id,
-      quiz_id: quiz.id,
-      score,
-      total_questions: quiz.questions.length,
-    };
+      const result = {
+        user_id: user.id,
+        quiz_id: quiz.id,
+        score,
+        total_questions: quiz.questions.length,
+      };
 
-    addResult(result)
-      .then((data) => {
-        toast.success('Quiz completed! Results saved.');
-        navigate(`/results/${data.id}`);
-      })
-      .finally(() => setSubmitting(false));
-  }, [answers, quiz, user.id, navigate]);
+      const savedResult = await addResult(result);
+      toast.success('Quiz completed! Results saved.');
+      navigate(`/results/${savedResult.id}`);
+    } catch {
+      toast.error('Failed to submit quiz.');
+    } finally {
+      setSubmitting(false);
+    }
+  }, [answers, quiz, user, navigate]);
 
   useEffect(() => {
-    async function loadQuiz() {
+    const loadQuiz = async () => {
       try {
-        const result = await getResultByQuizIdAndUserId(id, user.id);
-
-        if (result.length) {
+        const existingResults = await getResultsByQuizIdAndUserId(id, user.id);
+        if (existingResults.length) {
           toast(
             'You already completed this quiz. Redirecting to your result...'
           );
-          navigate(`/results/${result.at(0).id}`);
+          navigate(`/results/${existingResults[0].id}`);
           return;
         }
 
@@ -75,14 +75,14 @@ function Quiz() {
         setQuiz(data.at(0));
         setSecondsRemaining(180);
       } catch {
-        toast.error('Failed to load quiz');
+        toast.error('Failed to load quiz.');
       } finally {
         setLoading(false);
       }
-    }
+    };
 
     loadQuiz();
-  }, [id, navigate, user.id]);
+  }, [id, navigate, user]);
 
   useEffect(() => {
     if (!quiz || secondsRemaining <= 0) return;
@@ -99,7 +99,7 @@ function Quiz() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [quiz, handleSubmit, secondsRemaining]);
+  }, [quiz, secondsRemaining, handleSubmit]);
 
   return (
     <AppLayout>
@@ -115,7 +115,7 @@ function Quiz() {
           </div>
           <Hr />
           <ul>
-            {quiz.questions.map((question, index) => (
+            {quiz?.questions?.map((question, index) => (
               <li key={question.id} className='mb-5'>
                 <div>
                   <h2>{`${index + 1}. ${question.question}`}</h2>
@@ -129,10 +129,9 @@ function Quiz() {
                         onChange={() => handleChange(question.id, key)}
                         disabled={secondsRemaining === 0}
                       />
-                      <label
-                        htmlFor={`${question.id}-${key}`}
-                        className='ms-2'
-                      >{`${key}. ${value}`}</label>
+                      <label htmlFor={`${question.id}-${key}`} className='ms-2'>
+                        {`${key}. ${value}`}
+                      </label>
                     </div>
                   ))}
                 </div>

@@ -30,7 +30,7 @@ async function getResultById(id) {
   return data;
 }
 
-async function getResultByQuizIdAndUserId(quiz_id, user_id) {
+async function getResultsByQuizIdAndUserId(quiz_id, user_id) {
   const { data, error } = await supabase
     .from('results')
     .select(`*, quizzes (*)`)
@@ -51,6 +51,6 @@ async function deleteResultById(id) {
 export {
   addResult,
   getResultById,
-  getResultByQuizIdAndUserId,
+  getResultsByQuizIdAndUserId,
   deleteResultById,
 };
