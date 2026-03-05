@@ -1,3 +1,4 @@
+import toast from 'react-hot-toast';
 import supabase from './supabase';
 
 async function getCategories() {
@@ -5,7 +6,7 @@ async function getCategories() {
     .from('categories')
     .select('*');
 
-  if (error) console.log(error);
+  if (error) toast.error(error.message);
 
   return categories;
 }

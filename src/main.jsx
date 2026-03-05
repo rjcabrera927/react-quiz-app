@@ -10,12 +10,18 @@ import Signup from './pages/Signup.jsx';
 import { AuthProvider } from './contexts/AuthContext.jsx';
 import Home from './pages/Home.jsx';
 import { Toaster } from 'react-hot-toast';
+import Categories from './pages/Categories.jsx';
+import Quizzes from './pages/Quizzes.jsx';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <ProtectedRoute />,
-    children: [{ path: '/', Component: Home }],
+    children: [
+      { path: '/', Component: Home },
+      { path: '/categories', Component: Categories },
+      { path: '/categories/:id/quizzes', Component: Quizzes },
+    ],
   },
   {
     path: '/login',

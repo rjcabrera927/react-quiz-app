@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import Hr from '../components/Hr';
 import AppLayout from '../layouts/AppLayout';
 
@@ -6,13 +7,16 @@ function Home() {
     <AppLayout>
       <h1 className='text-3xl uppercase text-center'>React Quiz App</h1>
       <Hr />
-      <button className='bg-violet-500 text-white w-full rounded-full py-3 px-2 mb-3 hover:bg-violet-600 cursor-pointer'>
+      <Link
+        to='/categories'
+        className='block text-center bg-violet-500 text-white w-full rounded-full py-3 px-2 mb-3 hover:bg-violet-600 cursor-pointer'
+      >
         Start Quiz
-      </button>
+      </Link>
 
-      <button className='bg-violet-500 text-white w-full rounded-full py-3 px-2 hover:bg-violet-600 cursor-pointer'>
+      {/* <button className='bg-violet-500 text-white w-full rounded-full py-3 px-2 hover:bg-violet-600 cursor-pointer'>
         View Leaderboard
-      </button>
+      </button> */}
     </AppLayout>
   );
 }
