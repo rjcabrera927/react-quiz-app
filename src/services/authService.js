@@ -26,4 +26,15 @@ async function userLogout() {
   if (error) toast.error(error.message);
 }
 
-export { getUser, userLogin, userLogout };
+async function userSignup({ email, password }) {
+  let { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) toast.error(error.message);
+
+  return data;
+}
+
+export { getUser, userLogin, userLogout, userSignup };
